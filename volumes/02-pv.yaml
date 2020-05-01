@@ -12,3 +12,32 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/data"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-testsecure1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5G
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvc-pod
+spec:
+  volumes:
+    - name: pvc-testsecure1
+      persistentVolumeClaim:
+        claimName: pvc-testsecure1
+  containers:
+    - name: centos
+      image: centos:7
+      command: ["sleep", "10000"]
+      volumeMounts:
+        - mountPath: "/data"
+          name: pvc-testsecure1
