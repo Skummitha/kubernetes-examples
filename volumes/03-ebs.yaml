@@ -1,0 +1,29 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: task-pv-claim
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: check-nfs
+spec:
+  containers:
+    - name: centos
+      image: centos:7
+      command: ["sleep", "10000"]
+      volumeMounts:
+        - mountPath: "/data"
+          name: task-pv-claim
+  volumes:
+    - name: task-pv-claim
+      persistentVolumeClaim:
+        claimName: task-pv-claim
