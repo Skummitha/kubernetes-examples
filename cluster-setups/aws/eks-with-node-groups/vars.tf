@@ -1,0 +1,3 @@
+variable "PURPOSE" {
+  default = "sample"
+}
