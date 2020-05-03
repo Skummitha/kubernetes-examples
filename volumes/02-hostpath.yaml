@@ -4,27 +4,8 @@ metadata:
   name: hostpath-pv
 spec:
   storageClassName: manual
-  capacity:
-    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
     path: "/opt"
 
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: hostpath-pod
-spec:
-  containers:
-    - name: centos
-      image: centos:7
-      command: ["sleep","10000"]
-      volumeMounts:
-        - mountPath: /opt
-          name: hostPath-pv
-  volumes:
-    - name: hostPath-pv
-      persistentVolumeClaim:
-        claimName: hostPath-pv
