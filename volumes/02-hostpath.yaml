@@ -4,6 +4,8 @@ metadata:
   name: hostpath-pv
 spec:
   storageClassName: manual
+  capacity:
+    storage: 5Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
