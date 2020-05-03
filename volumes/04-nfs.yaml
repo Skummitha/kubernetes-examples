@@ -1,31 +1,12 @@
-
-
----
 apiVersion: v1
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 metadata:
-  name: efs-pvc
+  name: efs-persist
 spec:
+  capacity:
+    storage: 10Gi
   accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  storageClassName: manual
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: pod-name
-spec:
-  containers:
-    - name: centos
-      image: centos:7
-      command: ["sleep","10000"]
-      volumeMounts:
-        - mountPath: /data
-          name: efs-pvc
-  volumes:
-    - name: efs-pvc
-      persistentVolumeClaim:
-        claimName: efs-pvc
+    - ReadWriteMany
+  nfs:
+    server: fs-9b722931.efs.us-west-2.amazonaws.com
+    path: "/"
