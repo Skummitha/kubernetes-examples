@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: hostPath-pv
+  name: hostpath-pv
 spec:
   storageClassName: manual
   capacity:
@@ -15,7 +15,7 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hostPath-pod
+  name: hostpath-pod
 spec:
   containers:
     - name: centos
