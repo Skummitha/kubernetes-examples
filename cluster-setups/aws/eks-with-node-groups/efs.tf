@@ -32,3 +32,25 @@ resource "aws_security_group" "allow_nfs" {
     Name = "allow_nfs"
   }
 }
+
+
+// Mount EFS
+resource "null_resource" "mount_efs" {
+  count = length(data.aws_instances.nodes.public_ips)
+
+  provisioner "remote-exec" {
+
+    connection {
+      user = "ec2-user"
+      host = element(data.aws_instances.nodes.public_ips, count.index)
+      private_key = file("/home/centos/.ssh/id_rsa")
+    }
+
+    inline = [
+      "sudo yum install -y amazon-efs-utils",
+      "sudo mkdir -p /data"
+      "sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport ${aws_efs_file_system.shared-volume-eks.dns_name}:/ /data"
+    ]
+
+  }
+}
